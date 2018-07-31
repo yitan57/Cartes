@@ -6,31 +6,18 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
-/**
- * Writes the value "TEST" to the cell at the first row and first column of worksheet.
- */
-fun writeToExcelFile(text: String, filepath: String, rowNumber: Int) {
-    //Instantiate Excel workbook:
-    val xlWb = XSSFWorkbook()
-    //Instantiate Excel worksheet:
-    val xlWs = xlWb.createSheet()
+val numCartesPorHoja = 35
+val numCartesPorFila = 7
 
-    //Write text value to cell located at ROW_NUMBER / COLUMN_NUMBER:
-    xlWs.createRow(5).createCell(0).setCellValue(text)
-
-    //print(text + "  $rowNumber \n")
-
-    //Write file:
-    val outputStream = FileOutputStream(filepath)
-    xlWb.write(outputStream)
-    xlWb.close()
-}
+val numCartesPorHojaStandard = 18
+val numCartesPorFilaStandard = 6
 
 
 /**
  * Reads the value from the cell at the first row and first column of worksheet.
  */
-fun readFromExcelFileEquipo(filepath: String) {
+fun readFromExcelFileEquipo() {
+    val filepath = "./Kingdom Death Monster Cartas.xls"
     //Instantiate Excel workbook:
     val xlWbss = XSSFWorkbook()
     //Instantiate Excel worksheet:
@@ -53,33 +40,33 @@ fun readFromExcelFileEquipo(filepath: String) {
     while (rowNumber < 840) {
 
         val text = xlWs.getRow(rowNumber).getCell(columnNumber).stringCellValue
-        print( text + "  $rowNumber con % = ${(rowNumber-1) % 7} -- pasa a ser: ")
-        if (text.contains("Trasera")) {
-            if ((rowNumber - 1) % 7 == 0) {
+        print("${rowNumber+1} - $text  con % = ${(rowNumber-1) % (numCartesPorFila*2)} -- pasa a ser: ")
+        if ((rowNumber-1) % (numCartesPorHoja*2) >= numCartesPorHoja) {
+            if ((rowNumber - 1) % numCartesPorFila == 0) {
                 xlWsss.createRow(rowNumber + 6).createCell(0).setCellValue(text)
                 print(" ${rowNumber + 6} \n")
 
-            } else if ((rowNumber - 1) % 7 == 1) {
+            } else if ((rowNumber - 1) % numCartesPorFila == 1) {
                 xlWsss.createRow(rowNumber + 4).createCell(0).setCellValue(text)
                 print(" ${rowNumber + 4} \n")
 
-            } else if ((rowNumber - 1) % 7 == 2) {
+            } else if ((rowNumber - 1) % numCartesPorFila == 2) {
                 xlWsss.createRow(rowNumber + 2).createCell(0).setCellValue(text)
                 print(" ${rowNumber + 2} \n")
 
-            } else if ((rowNumber - 1) % 7 == 3) {
+            } else if ((rowNumber - 1) % numCartesPorFila == 3) {
                 xlWsss.createRow(rowNumber).createCell(0).setCellValue(text)
                 print(" ${rowNumber} \n")
 
-            } else if ((rowNumber - 1) % 7 == 4) {
+            } else if ((rowNumber - 1) % numCartesPorFila == 4) {
                 xlWsss.createRow(rowNumber - 2).createCell(0).setCellValue(text)
                 print(" ${rowNumber - 2} \n")
 
-            } else if ((rowNumber - 1) % 7 == 5) {
+            } else if ((rowNumber - 1) % numCartesPorFila == 5) {
                 xlWsss.createRow(rowNumber - 4).createCell(0).setCellValue(text)
                 print(" ${rowNumber - 4} \n")
 
-            } else if ((rowNumber - 1) % 7 == 6) {
+            } else if ((rowNumber - 1) % numCartesPorFila == 6) {
                 xlWsss.createRow(rowNumber - 6).createCell(0).setCellValue(text)
                 print(" ${rowNumber - 6} \n")
 
@@ -100,7 +87,8 @@ fun readFromExcelFileEquipo(filepath: String) {
 /**
  * Reads the value from the cell at the first row and first column of worksheet.
  */
-fun readFromExcelFile(filepath: String) {
+fun readFromExcelFile( ) {
+    val filepath = "./Kingdom Death Monster Cartas Standard.xls"
     //Instantiate Excel workbook:
     val xlWbss = XSSFWorkbook()
     //Instantiate Excel worksheet:
@@ -123,31 +111,32 @@ fun readFromExcelFile(filepath: String) {
     while (rowNumber < 1477) {
 
         val text = xlWs.getRow(rowNumber).getCell(columnNumber).stringCellValue
-        print( text + "  $rowNumber con % = ${(rowNumber-1) % 6} -- pasa a ser: ")
-        if (text.contains("TRASERAS")) {
-            if ((rowNumber - 1) % 6 == 0) {
+        print( "  ${rowNumber+1} - $text con % = ${(rowNumber-1) % numCartesPorFilaStandard} -- pasa a ser: ")
+        if ((rowNumber-1) % (numCartesPorHojaStandard*2) >= numCartesPorHojaStandard) {
+            if ((rowNumber - 1) % numCartesPorFilaStandard == 0) {
                 xlWsss.createRow(rowNumber + 5).createCell(0).setCellValue(text)
-                print(" ${rowNumber + 5} \n")
-            } else if ((rowNumber - 1) % 6 == 1) {
+                print(" ${rowNumber + 5}")
+            } else if ((rowNumber - 1) % numCartesPorFilaStandard == 1) {
                 xlWsss.createRow(rowNumber + 3).createCell(0).setCellValue(text)
-                print(" ${rowNumber + 3} \n")
-            } else if ((rowNumber - 1) % 6 == 2) {
+                print(" ${rowNumber + 3}")
+            } else if ((rowNumber - 1) % numCartesPorFilaStandard == 2) {
                 xlWsss.createRow(rowNumber + 1).createCell(0).setCellValue(text)
-                print(" ${rowNumber + 1} \n")
-            } else if ((rowNumber - 1) % 6 == 3) {
+                print(" ${rowNumber + 1}")
+            } else if ((rowNumber - 1) % numCartesPorFilaStandard == 3) {
                 xlWsss.createRow(rowNumber - 1).createCell(0).setCellValue(text)
-                print(" ${rowNumber - 1} \n")
-            } else if ((rowNumber - 1) % 6 == 4) {
+                print(" ${rowNumber - 1}")
+            } else if ((rowNumber - 1) % numCartesPorFilaStandard == 4) {
                 xlWsss.createRow(rowNumber - 3).createCell(0).setCellValue(text)
-                print(" ${rowNumber - 3} \n")
-            } else if ((rowNumber - 1) % 6 == 5) {
+                print(" ${rowNumber - 3}")
+            } else if ((rowNumber - 1) % numCartesPorFilaStandard == 5) {
                 xlWsss.createRow(rowNumber - 5).createCell(0).setCellValue(text)
-                print(" ${rowNumber - 5} \n")
+                print(" ${rowNumber - 5}")
             }
         } else {
             xlWsss.createRow(rowNumber).createCell(0).setCellValue(text)
+            print("LA MISMA")
         }
-
+        print("\n")
         rowNumber++
     }
     val outputStream = FileOutputStream(filepathOut)
@@ -156,10 +145,7 @@ fun readFromExcelFile(filepath: String) {
 }
 
 fun main(args: Array<String>) {
-    //val filepath = "./Kingdom Death Monster Cartas Standard.xls"
-    val filepath = "./Kingdom Death Monster Cartas.xls"
-    //writeToExcelFile(filepath)
-    //readFromExcelFile(filepath)
-    readFromExcelFileEquipo(filepath)
+    readFromExcelFile()
+    //readFromExcelFileEquipo()
 }
 
